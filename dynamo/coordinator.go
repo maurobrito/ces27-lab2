@@ -190,9 +190,18 @@ func aggregateVotes(votes []*vote) (result string) {
 		log.Printf("[COORDINATOR] Vote: %v\n", vote.value)
 	}
 
+	var rightVote = 0
+	var i = 0
+	for _, vote := range votes {
+		if(vote.timestamp > votes[rightVote].timestamp){
+			rightVote = i
+		}
+		i++
+	}
+
 	/////////////////////////
 	// YOUR CODE GOES HERE //
 	/////////////////////////
-	result = votes[0].value
+	result = votes[rightVote].value
 	return
 }

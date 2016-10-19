@@ -21,8 +21,27 @@ func (r *Ring) search(key string) int {
     /////////////////////////
     // YOUR CODE GOES HERE //
     /////////////////////////
+    var hashNumber = hashId(key)
+    var norm = 360
+    var value = 0
+    var ret = 0
+    r.Lock()
+    defer r.Unlock()
 
-    return 0
+    var i = 0
+    for i < r.Nodes.Len() && r.Nodes[i].Id != key {
+        value = int(r.Nodes[i].HashId - hashNumber)
+        if value < 0 {
+            value = -value
+        }
+        if  value < norm {
+            norm = value
+            ret = i 
+        }
+        i++
+    }
+
+    return ret
 }
 
 // NewRing will create a new Ring object and return a pointer to it.
